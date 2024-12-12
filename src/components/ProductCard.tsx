@@ -6,9 +6,14 @@ import Button from "./ui/Button"
 
 interface IProps {
     product: Iproduct;
+    setProductToEdit: (product :Iproduct) => void
+    openEditModal :() => void
+    idx : number
+    setProductToEditIdx :(value : number) => void
+
 
 }
-const ProductCard = ({product} : IProps) => {
+const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductToEditIdx} : IProps) => {
     const {title, description, imageURL, price, category,colors}=product
     
           // ------ render ------
@@ -17,7 +22,13 @@ const ProductCard = ({product} : IProps) => {
         throw new Error("Function not implemented.");
     } }/>));
     
+         // ------ handler ------
 
+ const onEdit = () => {
+    setProductToEdit(product);
+    openEditModal()
+    setProductToEditIdx(idx)
+ }
 
  return (
      <div className="border rounded-md text-sm p-4 mx-2">
@@ -32,7 +43,7 @@ const ProductCard = ({product} : IProps) => {
     <Images imageUrl={category.imageURL} alt={category.name} className={"rounded-full w-10 h-10"}/>
 </div>
 <div className="flex justify-between items-center space-x-2 mt-4">
-<Button className=" bg-blue-700 ">Edit</Button>  
+<Button className=" bg-blue-700 "onClick={onEdit}>Edit</Button>  
 <Button className=" bg-red-700 ">Delete</Button>  
 
 </div>
