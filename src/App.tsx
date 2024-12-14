@@ -32,6 +32,7 @@ const App = () => {
   const [tempColor,setTempColor] = useState<string[]>([])
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditModal, setOpenEditModal] = useState(false);
+  const [isOpenConfirmModal, setOpenConfirmModal] = useState(false);
   const [productToEdit, setProductToEdit] = useState<Iproduct>(defaultProductObj)
   const [productToEditIdx, setProductToEditIdx] = useState<number>(0);
 
@@ -42,6 +43,7 @@ const App = () => {
     const openModal= ()=> setIsOpen(true);
     const closeEditModal= ()=> setOpenEditModal(false) ;
     const openEditModal= ()=> setOpenEditModal(true);
+    const closConfirmModal=()=> setOpenConfirmModal(true)   
 
 const onChangeHandler = (event:ChangeEvent<HTMLInputElement>) =>{
 const {value , name} = event.target;
@@ -67,6 +69,11 @@ const onChangeEditHandler = (event:ChangeEvent<HTMLInputElement>) =>{
       closeModal()
     };
     
+    const removeProductHanddler= () =>{
+
+
+    }
+
     const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
       event.preventDefault();
       const { title,description, price,imageURL,} = product;
@@ -130,6 +137,7 @@ const onChangeEditHandler = (event:ChangeEvent<HTMLInputElement>) =>{
     openEditModal={openEditModal}
     idx={idx}
     setProductToEditIdx={setProductToEditIdx} 
+    openConfirmModal={open}
     /> 
 
   )
@@ -194,6 +202,7 @@ return (  <div className="flex flex-col mt-3" >
 <div className=" m-5 p-5 gap-5 rounded-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {renderProductList}
     </div>
+
 {/* ---- add product modal ---- */}
     <Modal isOpen={isOpen} closeModal={closeModal} title="ADD A NEW PRODUCT"  >
    <form action="" onSubmit={submitHandler}>
@@ -220,7 +229,7 @@ return (  <div className="flex flex-col mt-3" >
 
 
     {/* ---- edit product modal ---- */}
-    <Modal isOpen={isOpenEditModal} closeModal={closeEditModal} title="EDIT THIS PRODUCT"  >
+    <Modal isOpen={isOpenEditModal} closeModal={closeEditModal} title="EDIT THIS PRODUCT" >
    <form action="" onSubmit={submitEditHandler}>
    {randerProductEditwithErorrMsg('title' , 'product title' , 'title')}
    {randerProductEditwithErorrMsg('description' , 'Product Description' , 'description')}
@@ -244,6 +253,21 @@ return (  <div className="flex flex-col mt-3" >
        <Button className=" bg-red-800 hover:bg-red-600 "onClick={onCancel}>Cancel</Button>  
       </div>
    </form>
+    </Modal>
+
+        {/* ---- delete product modal ---- */}
+
+        <Modal
+         isOpen={isOpenConfirmModal}
+         closeModal={closConfirmModal} 
+         title="Are you sure you want to remove this produt" 
+         description="Are you sure you want to delete this product? This action cannot be undone."
+          >
+    
+      <div className="flex justify-between items-center space-x-2 mt-10 ">
+       <Button className=" bg-blue-800 hover:bg-blue-600 w-fit "onClick={removeProductHanddler} >Yes, Remove</Button>  
+       <Button className=" bg-red-800 hover:bg-red-600 "onClick={closConfirmModal}>Cancel</Button>  
+      </div>
     </Modal>
 </main>
   )

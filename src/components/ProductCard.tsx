@@ -4,18 +4,21 @@ import CircleColor from "./CircleColor";
 import Images from "./Images"
 import Button from "./ui/Button"
 
+
 interface IProps {
     product: Iproduct;
     setProductToEdit: (product :Iproduct) => void
     openEditModal :() => void
     idx : number
     setProductToEditIdx :(value : number) => void
+    openConfirmModal: () => void ; 
 
 
 }
-const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductToEditIdx} : IProps) => {
+const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductToEditIdx,openConfirmModal} : IProps) => {
     const {title, description, imageURL, price, category,colors}=product
     
+
           // ------ render ------
 
     const randerProductColors= colors.map( color => (<CircleColor key={color} color={color} onClick={function (): void {
@@ -30,6 +33,13 @@ const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductT
     setProductToEditIdx(idx)
  }
 
+
+ const onRemove= ()=> {
+    setProductToEdit(product)
+    console.log(openConfirmModal,);
+    openConfirmModal()
+ }
+
  return (
      <div className="border rounded-md text-sm p-4 mx-2">
       <Images imageUrl={imageURL} alt={"Product image"} className={"rounded-md"}/>
@@ -42,9 +52,10 @@ const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductT
     <span>${price}</span>
     <Images imageUrl={category.imageURL} alt={category.name} className={"rounded-full w-10 h-10"}/>
 </div>
+
 <div className="flex justify-between items-center space-x-2 mt-4">
 <Button className=" bg-blue-700 "onClick={onEdit}>Edit</Button>  
-<Button className=" bg-red-700 ">Delete</Button>  
+<Button className=" bg-red-700 " onClick={onRemove}>Remove</Button>  
 
 </div>
 </div>
@@ -52,3 +63,8 @@ const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductT
 }
 
 export default ProductCard
+
+
+
+
+
